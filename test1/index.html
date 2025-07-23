@@ -9,18 +9,24 @@
 		<link rel="stylesheet" href="/Reveal_2025_2026/dist/reset.css">
 		<link rel="stylesheet" href="/Reveal_2025_2026/dist/reveal.css">
 		<link rel="stylesheet" href="/Reveal_2025_2026/dist/theme/white.css">
-		<link rel="stylesheet" href="/Reveal_2025_2026/plugin/chalkboard/style.css">
-		<link rel="stylesheet" href="/Reveal_2025_2026/plugin/chalkboard/notescanvas.css">
 
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="/Reveal_2025_2026/plugin/highlight/monokai.css">
-
+		<!-- Font awesome is required for the chalkboard plugin -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+		<!-- Custom controls plugin is used to for opening and closing annotation modes. -->
+		<script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/customcontrols/plugin.js"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/customcontrols/style.css">
+		<!-- Chalkboard plugin -->
+		<script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/chalkboard/plugin.js"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/chalkboard/style.css">
 	</head>
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Chalk</section>
-				<section>Notes</section>
+				<section>Chalk1</section>
+				<section>Notes2</section>
 			</div>
 		</div>
 
@@ -28,7 +34,6 @@
 		<script src="/Reveal_2025_2026/plugin/notes/notes.js"></script>
 		<script src="/Reveal_2025_2026/plugin/markdown/markdown.js"></script>
 		<script src="/Reveal_2025_2026/plugin/highlight/highlight.js"></script>
-		<script src="/Reveal_2025_2026/plugin/chalkboard/plugin.js"></script>
 
 		<script>
 			// More info about initialization & config:
@@ -37,6 +42,22 @@
 			Reveal.initialize({
 				hash: true,
 
+				//chalkboard
+				customcontrols: {
+					controls: [
+					{ icon: '<i class="fa fa-pen-square"></i>',
+						title: 'Toggle chalkboard (B)',
+						action: 'RevealChalkboard.toggleChalkboard();'
+					},
+					{ icon: '<i class="fa fa-pen"></i>',
+						title: 'Toggle notes canvas (C)',
+						action: 'RevealChalkboard.toggleNotesCanvas();'
+					}
+					]
+				},
+				chalkboard: {
+					// add configuration here
+				},
 				// Learn about plugins: https://revealjs.com/plugins/
 				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealChalkboard ]
 			});
