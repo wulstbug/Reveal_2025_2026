@@ -91,14 +91,23 @@
 				return;
 				}
 
-				// Suche aktives Canvas (Whiteboard oder Overlay)
-				const canvas = document.querySelector(".chalkboard-canvas:not(.chalkboard-canvas-background)");
-				if (!canvas) {
-				alert("Kein Chalkboard aktiv – drücke 'w' oder 'c', um zu starten.");
+				// Finde aktives Canvas
+				const canvases = document.querySelectorAll(".chalkboard-canvas");
+				let visibleCanvas = null;
+
+				canvases.forEach(c => {
+				const style = getComputedStyle(c);
+				if (style.display !== "none" && c.offsetParent !== null) {
+					visibleCanvas = c;
+				}
+				});
+
+				if (!visibleCanvas) {
+				alert("Kein aktives Chalkboard-Canvas gefunden. Drücke 'w' oder 'c' zum Aktivieren.");
 				return;
 				}
 
-				const dataUrl = canvas.toDataURL("image/png");
+				const dataUrl = visibleCanvas.toDataURL("image/png");
 
 				// Download starten
 				const a = document.createElement("a");
