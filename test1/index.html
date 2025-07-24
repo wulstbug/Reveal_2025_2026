@@ -37,6 +37,21 @@
 				</section>
 			</div>
 		</div>
+		<button id="save-chalkboard" style="
+			position: fixed;
+			top: 1em;
+			right: 1em;
+			z-index: 1000;
+			padding: 0.5em 1em;
+			font-size: 1em;
+			border: none;
+			border-radius: 5px;
+			background-color: #008cff;
+			color: white;
+			cursor: pointer;
+			">
+			Chalkboard speichern
+		</button>
 
 		<script src="/Reveal_2025_2026/dist/reveal.js"></script>
 		<script src="/Reveal_2025_2026/plugin/notes/notes.js"></script>
@@ -69,6 +84,24 @@
 				// Learn about plugins: https://revealjs.com/plugins/
 				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealChalkboard, RevealCustomControls ]
 			});
-		</script>
+			document.getElementById("save-chalkboard").addEventListener("click", function () {
+				const chalk = Reveal.getPlugin("RevealChalkboard");
+				if (!chalk) {
+				alert("Chalkboard-Plugin nicht gefunden.");
+				return;
+				}
+
+				const data = chalk.getData();
+				const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+				const url = URL.createObjectURL(blob);
+
+				const a = document.createElement("a");
+				a.href = url;
+				a.download = "chalkboard-export.json";
+				a.click();
+
+				URL.revokeObjectURL(url);
+			});
+		</script>		
 	</body>
 </html>
