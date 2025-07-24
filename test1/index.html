@@ -52,6 +52,20 @@
 		">
 		Save2
 		</button>
+		<button id="screenshot-btn" style="
+			position: fixed;
+			top: 10em;
+			right: 1em;
+			z-index: 1000;
+			padding: 0.5em 1em;
+			font-size: 1em;
+			border: none;
+			border-radius: 5px;
+			background-color: #673ab7;
+			color: white;
+			cursor: pointer;">
+			Screenshot speichern
+		</button>
 
 		<script src="/Reveal_2025_2026/dist/reveal.js"></script>
 		<script src="/Reveal_2025_2026/plugin/notes/notes.js"></script>
@@ -114,6 +128,25 @@
 				a.href = dataUrl;
 				a.download = "chalkboard-export.png";
 				a.click();
+			});
+		</script>		
+		<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+		<script>
+			document.getElementById("screenshot-btn").addEventListener("click", () => {
+				const target = document.querySelector(".reveal");
+
+				html2canvas(target, {
+				useCORS: true,
+				backgroundColor: "#ffffff" // optional für weiße Slides
+				}).then(canvas => {
+				const link = document.createElement("a");
+				link.href = canvas.toDataURL("image/png");
+				link.download = "reveal-screenshot.png";
+				link.click();
+				}).catch(err => {
+				alert("Screenshot fehlgeschlagen 😢");
+				console.error(err);
+				});
 			});
 		</script>		
 	</body>
