@@ -78,7 +78,7 @@
 			background-color: #009688;
 			color: white;
 			cursor: pointer;">
-			Nur Tafel speichern
+			Nur Tafel speichern 2 new
 		</button>
 
 		<script src="/Reveal_2025_2026/dist/reveal.js"></script>
@@ -165,36 +165,30 @@
 		</script>
 		<script>
 			document.getElementById("export-only-chalkboard").addEventListener("click", () => {
-				const plugin = Reveal.getPlugin("RevealChalkboard");
-				if (!plugin) {
-				alert("Chalkboard-Plugin nicht verfügbar.");
+				const chalk = Reveal.getPlugin("RevealChalkboard");
+				if (!chalk) {
+				alert("Chalkboard-Plugin nicht geladen.");
 				return;
 				}
 
-				// Alle Chalkboard-Canvas-Elemente suchen
-				const canvases = document.querySelectorAll(".chalkboard-canvas");
-
-				// Nur sichtbares (aktives) Canvas verwenden
-				let activeCanvas = null;
-				canvases.forEach(c => {
-				const style = getComputedStyle(c);
-				if (style.display !== "none" && c.offsetParent !== null) {
-					activeCanvas = c;
-				}
-				});
-
-				if (!activeCanvas) {
+				// Hol das aktuell aktive Zeichen-Canvas direkt vom Plugin
+				const canvas = chalk.canvas; // dies ist das richtige Canvas-Objekt
+				if (!canvas || !canvas.getContext) {
 				alert("Kein aktives Chalkboard gefunden – bitte zuerst 'w' oder 'c' drücken.");
 				return;
 				}
 
-				const dataUrl = activeCanvas.toDataURL("image/png");
+				try {
+				const dataURL = canvas.toDataURL("image/png");
 
-				// Download-Link auslösen
 				const link = document.createElement("a");
-				link.href = dataUrl;
+				link.href = dataURL;
 				link.download = "tafel-export.png";
 				link.click();
+				} catch (err) {
+				console.error("Fehler beim PNG-Export:", err);
+				alert("Export fehlgeschlagen 😢");
+				}
 			});
 		</script>
 	</body>
