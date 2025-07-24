@@ -66,6 +66,20 @@
 			cursor: pointer;">
 			Screenshot speichern
 		</button>
+		<button id="export-only-chalkboard" style="
+			position: fixed;
+			top: 13em;
+			right: 1em;
+			z-index: 1000;
+			padding: 0.5em 1em;
+			font-size: 1em;
+			border: none;
+			border-radius: 5px;
+			background-color: #009688;
+			color: white;
+			cursor: pointer;">
+			Nur Tafel speichern
+		</button>
 
 		<script src="/Reveal_2025_2026/dist/reveal.js"></script>
 		<script src="/Reveal_2025_2026/plugin/notes/notes.js"></script>
@@ -148,6 +162,40 @@
 				console.error(err);
 				});
 			});
-		</script>		
+		</script>
+		<script>
+			document.getElementById("export-only-chalkboard").addEventListener("click", () => {
+				const plugin = Reveal.getPlugin("RevealChalkboard");
+				if (!plugin) {
+				alert("Chalkboard-Plugin nicht verfügbar.");
+				return;
+				}
+
+				// Alle Chalkboard-Canvas-Elemente suchen
+				const canvases = document.querySelectorAll(".chalkboard-canvas");
+
+				// Nur sichtbares (aktives) Canvas verwenden
+				let activeCanvas = null;
+				canvases.forEach(c => {
+				const style = getComputedStyle(c);
+				if (style.display !== "none" && c.offsetParent !== null) {
+					activeCanvas = c;
+				}
+				});
+
+				if (!activeCanvas) {
+				alert("Kein aktives Chalkboard gefunden – bitte zuerst 'w' oder 'c' drücken.");
+				return;
+				}
+
+				const dataUrl = activeCanvas.toDataURL("image/png");
+
+				// Download-Link auslösen
+				const link = document.createElement("a");
+				link.href = dataUrl;
+				link.download = "tafel-export.png";
+				link.click();
+			});
+		</script>
 	</body>
 </html>
